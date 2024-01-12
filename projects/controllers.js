@@ -1,4 +1,4 @@
-import Db from '../config/db.js'
+const { Db } = await import("../config/db.js");
 import { ObjectId } from 'mongodb';
 
 export async function updateProject(req, res) {

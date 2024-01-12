@@ -1,33 +1,23 @@
-import { MongoClient } from 'mongodb';
+import { MongoClient } from "mongodb";
 
-class Db {
-	constructor() {
-		this.url = "mongodb+srv://leane:43frBcSIZTP76FhQ@espl-hub.ybdgitg.mongodb.net/?retryWrites=true&w=majority";
-		this.dbName = "espl-hub";
-		this.client = null;
-	}
-
-    async connect() {
-		if (!this.client) {
-			this.client = new MongoClient(this.url);
-
-			await this.client.connect();
-			console.log('Database connected');
-		}
-
-        return this.client.db(this.dbName);
+export class Db {
+    static async get() {
+        if (Db.mongoClient !== undefined) {
+            return Db.mongoClient.db();
+        }
+        Db.mongoClient = await MongoClient.connect(process.env.MONGODB_URI);
+        console.info("init mongoDb houseinfo connexion");
+        return Db.mongoClient.db();
     }
-
-    async close() {
-        if (this.client) {
-            await this.client.close();
-            console.log('Database close');
+    static async close() {
+        console.info("close mongoDb houseinfo connexion");
+        try {
+            await Db.mongoClient.close();
+        } catch (error) {
+            console.error(error);
         }
     }
 }
-
-const database = new Db();
-export default database;
 
 
 
