@@ -11,10 +11,6 @@ export class Server {
         this.app.use('/users', usersRouter);
         this.app.use('/projects', projectsRouter);
 
-        this.app.use(function (req, res, next) {
-            next(createError(404));
-        });
-
         this.server = createServer(this.app);
     }
 
