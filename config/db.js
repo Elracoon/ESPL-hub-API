@@ -1,25 +1,33 @@
-import { MongoClient } from "mongodb";
+import mongoose from 'mongoose';
 
 export class Db {
-    static async get() {
-        if (Db.mongoClient !== undefined) {
-            return Db.mongoClient.db();
+    static async connect() {
+        if (Db.isConnected()) {
+            return;
         }
-        Db.mongoClient = await MongoClient.connect(process.env.MONGODB_URI);
-        console.info("init mongoDb houseinfo connexion");
-        return Db.mongoClient.db();
-    }
-    static async close() {
-        console.info("close mongoDb houseinfo connexion");
+
         try {
-            await Db.mongoClient.close();
+            await mongoose.connect(process.env.MONGODB_URI);
+
+            console.info('Connected to MongoDB');
         } catch (error) {
-            console.error(error);
+            console.error('Error connecting to MongoDB:', error);
+            throw error;
+        }
+    }
+
+    static isConnected() {
+        return mongoose.connection.readyState === 1;
+    }
+
+    static async disconnect() {
+        if (Db.isConnected()) {
+            try {
+                await mongoose.disconnect();
+                console.info('Disconnected from MongoDB');
+            } catch (error) {
+                console.error('Error disconnecting from MongoDB:', error);
+            }
         }
     }
 }
-
-
-
-
-
