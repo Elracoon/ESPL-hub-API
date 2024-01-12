@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "set ENV=dev && nodemon index.js",
+    "start:test": "set ENV=test && nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -15,6 +16,9 @@
     "express": "^4.18.2",
     "mongodb": "^6.3.0",
     "mongoose": "^8.0.4",
-    "nodemon": "^3.0.2"
+    "nodemon": "^3.0.2",
+		"swagger": "^0.7.5",
+		"swagger-jsdoc": "^6.2.8",
+		"swagger-ui-express": "^5.0.0"
   }
 }
