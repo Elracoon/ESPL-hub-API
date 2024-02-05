@@ -20,12 +20,11 @@ const projectSchema = new Schema({
     competences: {
         type: String,
         enum: ['developpement', 'design', 'marketing', 'communciation', 'ux/ui'],
-        default: 'A contacter'
+        required: true
     },
-    members: [{
-        type: Schema.Types.ObjectId,
-        ref: 'users'
-    }]
+    members: {
+        type: String,
+    }
 });
 
 const Project = model('projects', projectSchema);
