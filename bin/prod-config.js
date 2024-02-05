@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 function init() {
     return new Promise((resolve) => {
         console.log('prod config');
@@ -11,4 +9,3 @@ function init() {
 }
 
 export {init};
->>>>>>> 26d64d19e1dda7303e29962bd3ac6131c120b65e
