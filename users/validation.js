@@ -14,6 +14,16 @@ const postSchemaUser = Joi.object({
     competences: Joi.string().valid("developpement", "design", "marketing", "communciation", "ux/ui").required(),
 })
 
+const patchSchemaUser = Joi.object({
+    username: Joi.string().optional(),
+    lastName: Joi.string().optional(),
+    firstName: Joi.string().optional(),
+    email: Joi.string().email().optional(),
+    password: Joi.string().optional(),
+    status: Joi.string().valid("company", "association", "student").optional(),
+    competences: Joi.string().valid("developpement", "design", "marketing", "communciation", "ux/ui").optional(),
+})
+
 const postSchemaLogin = Joi.object({
     username: Joi.string().required(),
     password: Joi.string().required(),

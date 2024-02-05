@@ -16,7 +16,7 @@ export class Server {
                 title: 'ESPL Hub'
               },
             },
-            apis: ['../users/routes.js', '../projects/routes.js']
+            apis: ['./users/routes.js', './projects/routes.js']
         };
         const specsDeploy = swaggerJsdoc(options);
         this.app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specsDeploy));
