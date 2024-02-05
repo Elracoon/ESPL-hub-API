@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+import { Schema, model } from 'mongoose';
 
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema({
     username: { type: String, required: true },
     lastName: { type: String, required: true },
     firstName: { type: String, required: true },
@@ -8,14 +8,17 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true },
     projects: [{
         id: {
-            type: mongoose.Schema.Types.ObjectId,
+            type: Schema.Types.ObjectId,
             ref: 'projects'
         },
-        enum: ['in progress', 'finish', 'candidate', 'publish']
+        status: {
+            type: String,
+            enum: ['in progress', 'finish', 'candidate', 'publish']
+        }
     }],
     status: {
         type: String,
-        enum: ['entreprise', 'association', 'student'],
+        enum: ['company', 'association', 'student'],
         default: null,
         required: true
     },
@@ -56,6 +59,8 @@ const userSchema = new mongoose.Schema({
     }
 })
 
-const User = mongoose.model('users', userSchema);
+userSchema.index({ email: 1 }, { unique: true });
 
-module.exports = User;
+const User = model('users', userSchema);
+
+export default User;
