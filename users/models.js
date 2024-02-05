@@ -11,7 +11,8 @@ const userSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'projects'
         },
-        enum: ['in progress', 'finish', 'candidate', 'publish']
+        enum: ['in progress', 'finish', 'candidate', 'publish'],
+        default: null
     }],
     status: {
         type: String,

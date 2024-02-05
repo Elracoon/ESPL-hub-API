@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "set ENV=dev && nodemon index.js",
+    "start:test": "set ENV=test && nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -13,6 +14,7 @@
   "dependencies": {
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "joi": "^17.12.1",
     "mongodb": "^6.3.0",
     "mongoose": "^8.0.4",
     "nodemon": "^3.0.2"
