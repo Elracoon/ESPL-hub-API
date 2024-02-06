@@ -10,8 +10,8 @@ const postSchemaUser = Joi.object({
         id: Joi.string().required(),
         status: Joi.string().valid("in progress", "finish", "candidate", "publish").required()
     })),
-    status: Joi.string().valid("company", "association", "student").required(),
-    competences: Joi.string().valid("developpement", "design", "marketing", "communciation", "ux/ui").required(),
+    status: Joi.string().valid("company", "association", "student").optional(),
+    competences: Joi.string().valid("developpement", "design", "marketing", "communciation", "ux/ui").optional(),
 })
 
 const patchSchemaUser = Joi.object({

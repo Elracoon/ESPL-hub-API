@@ -19,14 +19,12 @@ const userSchema = new Schema({
     status: {
         type: String,
         enum: ['company', 'association', 'student'],
-        default: null,
-        required: true
+        default: null
     },
     competences : {
         type: String,
         enum: ['developpement', 'design', 'marketing', 'communciation', 'ux/ui'],
-        default: null,
-        required: true
+        default: null
     },
     entreprise : {
         name: String,
