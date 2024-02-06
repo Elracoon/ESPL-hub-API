@@ -1,7 +1,6 @@
 import { ObjectId } from 'mongodb';
 import Notification from './models.js';
 import { postNotificationSchema } from './validation.js';
-import { log } from 'console';
 
 
 export async function getAllNotification(req, res) {
@@ -48,9 +47,9 @@ export async function deleteNotification(req, res) {
         const notificationId = req.params.id;
         const deleteNotification = await Notification.findOneAndDelete({ _id: new ObjectId(notificationId) });
         if (deleteNotification) {
-            res.status(200).send('Project Deleted');
+            res.status(200).send('Notification Deleted');
         } else {
-            res.status(404).send('Project Not Found');
+            res.status(404).send('Notification Not Found');
         }
     } catch ( error ) {
         res.status(500).send('Internal Server Error');

@@ -34,9 +34,9 @@ const router = Router();
  */
 router.get("/", getAllNotification);
 
-/** Documentation de la route notifications/:id
+/** Documentation de la route notifications/getone/:id
  * @swagger
- * /notifications/:id:
+ * /notifications/getone/:id:
  *  get:
  *   description: Get one notification from database
  *   tags:
@@ -220,6 +220,52 @@ router.delete("/:id", deleteNotification);
  */
 router.patch("/:id", changesReadStatusNotification);
 
+/** Documentation de la route notifications/noread
+ * @swagger
+ * /notifications/noread:
+ *  get:
+ *   description: Get Unread Notifications
+ *   tags:
+ *     - Routes Notifications
+ *   parameters:
+ *     - in: path
+ *       name: Notification Id
+ *       required: true
+ *       description: Notification Id
+ *       schema:
+ *          type: string
+ *   responses:
+ *     200:
+ *       description: Get Unread Notifications
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               message:
+ *                 type: string
+ *                 example: Notification data
+ *     404:
+ *       description: Notification Not Found
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               message:
+ *                 type: string
+ *                 example: Notification Not Found
+ *     500:
+ *       description: Internal Server Error
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               message:
+ *                 type: string
+ *                 example: Internal Server Error
+ */
 router.get("/noread", getNoReadNotification);
 
 export default router;
