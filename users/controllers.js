@@ -1,7 +1,6 @@
 import bcrypt from "bcrypt"
 import mongoose from "mongoose"
 import jwt from "jsonwebtoken"
-import crypto from "crypto"
 
 import User from './models.js';
 import { postSchemaUser, postSchemaLogin } from "./validation.js";
@@ -39,7 +38,6 @@ export async function addUser(req, res) {
         }
     } 
 }
-
 
 export async function login(req, res) {
     const object = req.body;
@@ -91,5 +89,27 @@ export async function updateUser(req, res) {
     } catch (err) {
         return res.status(500).json({ message: "error" });
     
+    }
+}
+
+export async function getUserData(req, res) {
+    const userId = req.user.userId
+    try {
+        const response = await User.findById(userId)
+        if (!response) {
+            return res.status(404).send({ message: noDataFound });
+        }
+        const userData = {
+            username : response.username,
+            firstName : response.firstName,
+            lastName : response.lastName,
+            lastName : response.lastName,
+            email : response.email,
+            status : response.status,
+            competences : response.competences
+        }
+        res.status(200).send(userData)
+    } catch (error) {
+        res.status(500).send("Internal Servor Error")
     }
 }
