@@ -68,8 +68,6 @@ router.get("/", authentification, getUserData)
  *           schema:
  *             type: object
  *             properties:
- *               username:
- *                 type: string
  *               firstName:
  *                 type: string
  *               lastName:
@@ -203,8 +201,6 @@ router.post("/login", login)
  *           schema:
  *             type: object
  *             properties:
- *               username:
- *                 type: string
  *               firstName:
  *                 type: string
  *               lastName:

@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { getAllProject, getOneProject, updateProject, addNewProject, deleteProject } from "./controllers.js"
+import { getAllProject, getOneProject, getProjectsByUserByStatus, updateProject, addNewProject, deleteProject } from "./controllers.js"
 import { authentification } from "../tools/helpers/authentification.js"
 
 const router = Router()
@@ -82,6 +82,8 @@ router.get("/", authentification, getAllProject)
  *                 example: Internal Server Error
  */
 router.get("/:id", authentification, getOneProject)
+
+router.get("/:status", authentification, getProjectsByUserByStatus)
 
 /** Documentation de la route projects/:id
  * @swagger

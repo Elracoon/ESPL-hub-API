@@ -1,4 +1,4 @@
-import { Db, ObjectId } from 'mongodb';
+import { ObjectId } from 'mongodb';
 import { noDataFound } from '../bin/messages-constants.js';
 import Project from './models.js';
 import User from "../users/models.js"
@@ -8,7 +8,8 @@ import { postProjectSchema, updateProjectSchema } from './validation.js';
 export async function getAllProject(req, res) {
     try {
         const allProjects = await Project.find({});
-        res.status(200).json({ allProjects });
+        console.log(allProjects);
+        res.status(200).json(allProjects);
     } catch (error) {
         res.status(500).send('Internal Server Error');
     }
@@ -60,7 +61,7 @@ export async function addNewProject(req, res) {
         }
         const project = new Project(object);
         const projectData = await project.save();
-        res.status(201).send({ projectData });
+        res.status(201).send(projectData);
     } catch (error) {
         res.status(500).send('Internal Server Error');
     }
@@ -80,13 +81,16 @@ export async function deleteProject(req, res) {
     }
 }
 
-// export async function getProjectsByUserByStatus (req, res) {
-//     const userId = req.user.userId
-//     try {
-//         const response = await User.aggregate([
-//             match
-//         ])
-//     } catch (error) {
-        
-//     }
-// }
+export async function getProjectsByUserByStatus (req, res) {
+    const userId = req.user.userId
+    const status = req.params.status
+    console.log(status);
+    try {
+        const response = await User.find()
+        console.log(response);
+        res.status(200).send(response)
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({messsage: "caca"})
+    }
+}

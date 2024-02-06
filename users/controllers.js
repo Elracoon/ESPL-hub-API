@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt"
-import ObjectId from "mongoose"
+import { ObjectId } from "mongodb"
 import jwt from "jsonwebtoken"
 
 import User from './models.js';
@@ -137,13 +137,14 @@ export async function addProjetToUser (req, res) {
     try {
         const response = await User.findOneAndUpdate(
             {_id: userId},
-            {$push: {projects: {id: new ObjectId(projectId), status: "in progress"}}}
+            {$push: {projects: {projectId: new ObjectId(projectId), status: "in progress"}}}
         )
         if (!response) {
             res.status(404).send({message: noDataFound})
         }
         res.status(200).send({message: "update success"})
     } catch (error) {
+        console.error(error);
         res.status(500).send({message: "Internal Server Error"})
     }
 }
