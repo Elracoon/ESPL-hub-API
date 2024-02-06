@@ -4,7 +4,6 @@ import Project from './models.js';
 import User from "../users/models.js"
 import { postProjectSchema, updateProjectSchema } from './validation.js';
 
-
 export async function getAllProject(req, res) {
     try {
         const allProjects = await Project.find({});
@@ -53,16 +52,21 @@ export async function updateProject(req, res) {
 }
 
 export async function addNewProject(req, res) {
+    const userId = req.user.userId
     try {
         const object = req.body;
         const { error } = postProjectSchema.validate(object);
         if ( error ) {
             return res.status(400).json({ error: error.details.map((d) => d.message) })
         }
+        const date = new Date();
+        object.createdAt = date
+        object.projectManager = userId
         const project = new Project(object);
         const projectData = await project.save();
         res.status(201).send(projectData);
     } catch (error) {
+        console.error(error);
         res.status(500).send('Internal Server Error');
     }
 }

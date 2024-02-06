@@ -19,8 +19,7 @@ const projectSchema = new Schema({
     },
     competences: {
         type: String,
-        enum: ['developpement', 'design', 'marketing', 'communciation', 'ux/ui'],
-        required: true
+        enum: ['developpement', 'design', 'marketing', 'communciation', 'ux/ui']
     },
     members: [{
         type: Schema.Types.ObjectId,
