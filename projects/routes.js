@@ -7,7 +7,7 @@ const router = Router()
 /** Documentation de la route projects/
  * @swagger
  * /projects:
- *  post:
+ *  get:
  *   description: Get all projects from database
  *   tags:
  *     - Routes Projects
