@@ -3,6 +3,7 @@ import swaggerUi from "swagger-ui-express";
 import swaggerJsdoc from "swagger-jsdoc";
 import { createServer } from 'http';
 
+import indexRouter from "../tools/helpers/indexRouter.js"
 import usersRouter from '../users/routes.js';
 import projectsRouter from '../projects/routes.js';
 
@@ -39,6 +40,7 @@ export class Server {
         this.app = express();
         this.app.use(express.json());
         this.createDoc();
+        this.app.use('/', indexRouter)
         this.app.use('/users', usersRouter);
         this.app.use('/projects', projectsRouter);
 

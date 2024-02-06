@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { addUser, login, updateUser, getUserData } from "./controllers.js"
+import { addUser, login, updateUser, getUserData, deleteUser } from "./controllers.js"
 import { authentification } from "../tools/helpers/authentification.js"
 
 const router = Router();
@@ -267,5 +267,47 @@ router.post("/login", login)
  *                 example: Internal Server Error
  */
 router.patch("/", authentification, updateUser)
+
+/** Documentation de la route /users/
+ * @swagger
+ * /users/:
+ *  delete:
+ *   description: Delete user
+ *   tags:
+ *     - Routes Users
+ *   responses:
+ *     200:
+ *       description: User data
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               message:
+ *                 type: string
+ *                 example: User delete with success
+ *               
+ *     404:
+ *       description: No data found
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               message:
+ *                 type: string
+ *                 example: No data found
+ *     500:
+ *       description: Internal Server Error
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               message:
+ *                 type: string
+ *                 example: Internal Server Error
+ */
+router.delete("/", authentification, deleteUser)
 
 export default router

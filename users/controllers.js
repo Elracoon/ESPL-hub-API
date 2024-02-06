@@ -113,3 +113,16 @@ export async function getUserData(req, res) {
         res.status(500).send("Internal Servor Error")
     }
 }
+
+export async function deleteUser (req, res) {
+    const userId = req.user.userId
+    try {
+        const user = await User.findByIdAndDelete(userId)
+        if (!user) {
+            res.status(404).send({message: noDataFound})
+        }
+        res.status(200).send({message: "User delete with success"})
+    } catch (error) {
+        res.status(500).send("Internal Servor Error")
+    }
+}
