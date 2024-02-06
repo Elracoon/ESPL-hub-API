@@ -13,7 +13,8 @@ const userSchema = new Schema({
         },
         status: {
             type: String,
-            enum: ['in progress', 'finish', 'candidate', 'publish']
+            enum: ['in progress', 'finish', 'candidate', 'publish'],
+            default: "in progress"
         }
     }],
     status: {

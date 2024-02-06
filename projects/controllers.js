@@ -1,6 +1,7 @@
 import { Db, ObjectId } from 'mongodb';
 import { noDataFound } from '../bin/messages-constants.js';
 import Project from './models.js';
+import User from "../users/models.js"
 import { postProjectSchema, updateProjectSchema } from './validation.js';
 
 
@@ -78,3 +79,14 @@ export async function deleteProject(req, res) {
         res.status(500).send('Internal Server Error');
     }
 }
+
+// export async function getProjectsByUserByStatus (req, res) {
+//     const userId = req.user.userId
+//     try {
+//         const response = await User.aggregate([
+//             match
+//         ])
+//     } catch (error) {
+        
+//     }
+// }

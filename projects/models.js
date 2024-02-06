@@ -22,9 +22,10 @@ const projectSchema = new Schema({
         enum: ['developpement', 'design', 'marketing', 'communciation', 'ux/ui'],
         required: true
     },
-    members: {
-        type: String,
-    }
+    members: [{
+        type: Schema.Types.ObjectId,
+        ref: 'users'
+    }]
 });
 
 const Project = model('projects', projectSchema);

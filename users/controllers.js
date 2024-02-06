@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt"
-import mongoose from "mongoose"
+import ObjectId from "mongoose"
 import jwt from "jsonwebtoken"
 
 import User from './models.js';
@@ -28,7 +28,11 @@ export async function addUser(req, res) {
         userData.password = hashedPassword;
         const user = new User(userData);
         const savedUser = await user.save();
-        return res.status(201).json({id: savedUser._id});
+        const tokenData = {
+            userId: savedUser._id,
+        };
+        const token = await jwt.sign(tokenData, process.env.SECRET_KEY);
+        return res.status(200).json({token: token});
     } catch (error) {
         if (error.code === 11000 && error.keyPattern && error.keyPattern.email) {
             return res.status(409).json({ message: 'User with the same email already exists' });
@@ -124,5 +128,22 @@ export async function deleteUser (req, res) {
         res.status(200).send({message: "User delete with success"})
     } catch (error) {
         res.status(500).send("Internal Servor Error")
+    }
+}
+
+export async function addProjetToUser (req, res) {
+    const userId = req.user.userId
+    const projectId = req.params.projectId
+    try {
+        const response = await User.findOneAndUpdate(
+            {_id: userId},
+            {$push: {projects: {id: new ObjectId(projectId), status: "in progress"}}}
+        )
+        if (!response) {
+            res.status(404).send({message: noDataFound})
+        }
+        res.status(200).send({message: "update success"})
+    } catch (error) {
+        res.status(500).send({message: "Internal Server Error"})
     }
 }

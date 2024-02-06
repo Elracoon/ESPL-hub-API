@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { addUser, login, updateUser, getUserData, deleteUser } from "./controllers.js"
+import { addUser, login, updateUser, getUserData, addProjetToUser, deleteUser } from "./controllers.js"
 import { authentification } from "../tools/helpers/authentification.js"
 
 const router = Router();
@@ -267,6 +267,8 @@ router.post("/login", login)
  *                 example: Internal Server Error
  */
 router.patch("/", authentification, updateUser)
+
+router.patch("/:projectId", authentification, addProjetToUser)
 
 /** Documentation de la route /users/
  * @swagger
