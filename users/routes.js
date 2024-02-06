@@ -80,10 +80,7 @@ router.get("/", authentification, getUserData)
  *                 type: string
  *               status:
  *                 type: string
- *                 enum:
- *                   - "company"
- *                   - "association"
- *                   - "student"
+ *                 example: ["company", "association", "student"]
  *               competences:
  *                 type: string
  *                 example: ["developpement", "design", "marketing", "communication", "ux/ui"]

@@ -1,7 +1,6 @@
 import Joi from 'joi'
 
 const postSchemaUser = Joi.object({
-    username: Joi.string().required(),
     lastName: Joi.string().required(),
     firstName: Joi.string().required(),
     email: Joi.string().email().required(),
@@ -15,7 +14,6 @@ const postSchemaUser = Joi.object({
 })
 
 const patchSchemaUser = Joi.object({
-    username: Joi.string().optional(),
     lastName: Joi.string().optional(),
     firstName: Joi.string().optional(),
     email: Joi.string().email().optional(),
@@ -25,7 +23,7 @@ const patchSchemaUser = Joi.object({
 })
 
 const postSchemaLogin = Joi.object({
-    username: Joi.string().required(),
+    email: Joi.string().email().required(),
     password: Joi.string().required(),
   });
 

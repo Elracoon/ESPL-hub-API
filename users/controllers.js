@@ -49,10 +49,10 @@ export async function login(req, res) {
     if (error) {
         return res.status(400).json({ error: error.details.map((d) => d.message) });
     } 
-    const username = object.username;
+    const email = object.email;
     const password = object.password;
     try {
-        const userPassword = await User.findOne({ username: username }).select('password').exec();
+        const userPassword = await User.findOne({ email: email }).select('password').exec();
         if (userPassword) {
             const match = await bcrypt.compare(password, userPassword.password); 
             if (match) {
