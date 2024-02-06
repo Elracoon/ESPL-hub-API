@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { invalidToken } from "../../bin/messages-constants.js";
+import { accessDenied, invalidToken } from "../../bin/messages-constants.js";
 
 async function authentification (req, res, next) {
     let token = req.header('Authorization');
@@ -8,11 +8,12 @@ async function authentification (req, res, next) {
         return res.status(401).json({invalidToken});
     }
     try {
-        const tokenDecoded = await jwt.verify(token, secretKey);
+        const tokenDecoded = await jwt.verify(token, process.env.SECRET_KEY);
         req.user = tokenDecoded;
         next();
     } catch (error) {
-        return res.status(401).json({message: messages.accesDenied.message});
+        console.error(error);
+        return res.status(401).json({message: accessDenied});
     }
 }
 

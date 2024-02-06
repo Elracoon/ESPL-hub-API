@@ -11,12 +11,25 @@ export class Server {
     createDoc() {
         const options = {
             definition: {
-              openapi: '3.0.0', 
-              info: {
-                title: 'ESPL Hub'
-              },
+                openapi: '3.0.0',
+                info: {
+                    title: 'ESPL Hub',
+                },
+                components: {
+                    securitySchemes: {
+                        bearerAuth: {
+                            type: 'http',
+                            scheme: 'bearer',
+                        },
+                    },
+                },
+                security: [
+                    {
+                        bearerAuth: [],
+                    },
+                ],
             },
-            apis: ['./users/routes.js', './projects/routes.js']
+            apis: ['./users/routes.js', './projects/routes.js'],
         };
         const specsDeploy = swaggerJsdoc(options);
         this.app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specsDeploy));
