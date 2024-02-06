@@ -1,5 +1,6 @@
 import { Router } from "express"
 import { getAllProject, getOneProject, updateProject, addNewProject, deleteProject } from "./controllers.js"
+import { authentification } from "../tools/helpers/authentification.js"
 
 const router = Router()
 
@@ -32,7 +33,7 @@ const router = Router()
  *                 type: string
  *                 example: Internal Server Error
  */
-router.get("/", getAllProject)
+router.get("/", authentification, getAllProject)
 
 /** Documentation de la route projects/:id
  * @swagger
@@ -80,7 +81,7 @@ router.get("/", getAllProject)
  *                 type: string
  *                 example: Internal Server Error
  */
-router.get("/:id", getOneProject)
+router.get("/:id", authentification, getOneProject)
 
 /** Documentation de la route projects/:id
  * @swagger
@@ -156,7 +157,7 @@ router.get("/:id", getOneProject)
  *                 type: string
  *                 example: Internal Server Error
  */
-router.patch('/:id', updateProject)
+router.patch('/:id', authentification, updateProject)
 
 /** Documentation de la route projects/add
  * @swagger
@@ -215,7 +216,7 @@ router.patch('/:id', updateProject)
  *                 type: string
  *                 example: Internal Server Error
  */
-router.post('/add', addNewProject)
+router.post('/add', authentification, addNewProject)
 
 /** Documentation de la route projects/:id
  * @swagger
@@ -263,6 +264,6 @@ router.post('/add', addNewProject)
  *                 type: string
  *                 example: Internal Server Error
  */
-router.delete('/:id', deleteProject)
+router.delete('/:id', authentification, deleteProject)
 
 export default router
