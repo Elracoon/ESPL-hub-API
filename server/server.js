@@ -5,6 +5,7 @@ import { createServer } from 'http';
 
 import usersRouter from '../users/routes.js';
 import projectsRouter from '../projects/routes.js';
+import notificationRouter from '../notifications/routes.js';
 
 
 export class Server {
@@ -29,7 +30,7 @@ export class Server {
                     },
                 ],
             },
-            apis: ['./users/routes.js', './projects/routes.js'],
+            apis: ['./users/routes.js', './projects/routes.js', './notifications/routes.js'],
         };
         const specsDeploy = swaggerJsdoc(options);
         this.app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specsDeploy));
@@ -41,6 +42,7 @@ export class Server {
         this.createDoc();
         this.app.use('/users', usersRouter);
         this.app.use('/projects', projectsRouter);
+        this.app.use('/notifications', notificationRouter);
 
         this.server = createServer(this.app);
     }

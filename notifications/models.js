@@ -9,16 +9,22 @@ const notificationsSchema = new Schema({
         type: String,
         required: true
     },
-    date: {
+    createdAt: {
         type: Date,
         required: true
     },
     read: {
         type: Boolean,
         default: false
-    }
+    },
+    types: {
+        type: String,
+        enum: ['accepted', 'new feedback', 'new candidate', 'refused', 'pending'],
+        required: false,
+        default: 'pending'
+    },
 })
 
-const Notifiactions = model('notifications', notificationsSchema);
+const Notifiaction = model('notifications', notificationsSchema);
 
-export default Notifiactions;
+export default Notifiaction;
