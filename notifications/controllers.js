@@ -4,8 +4,9 @@ import { postNotificationSchema } from './validation.js';
 
 
 export async function getAllNotification(req, res) {
+    const userId = req.user.userId;
     try {
-        const allNotifications = await Notification.find({ read: false });
+        const allNotifications = await Notification.find({ user: userId });
         res.status(200).json(allNotifications);
     } catch {
         res.status(500).send('Internal Server Error');
@@ -27,12 +28,15 @@ export async function getOneNotification(req, res) {
 }
 
 export async function addNewNotification(req, res) {
+    const userId = req.user.userId;
     try {
         const object = req.body;
         const { error } = postNotificationSchema.validate(object);
         if ( error ) {
             return res.status(400).json({ error: error.details.map((d) => d.message ) });
         }
+        object.user = userId;
+        object.createdAt = new Date();
         const notification = new Notification(object);
         const notificationData = await notification.save();
         res.status(201).send(notificationData);
@@ -76,8 +80,9 @@ export async function changesReadStatusNotification(req, res) {
 }
 
 export async function getNoReadNotification(req, res) {
+    const userId = req.user.userId;
     try {
-        const allNotifications = await Notification.find({ read: false });
+        const allNotifications = await Notification.find({ read: false, user: userId });
         res.status(200).json(allNotifications);
     } catch(error) {
         console.log(error);

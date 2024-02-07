@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { getAllNotification, getOneNotification, addNewNotification, deleteNotification, changesReadStatusNotification, getNoReadNotification } from "./controllers.js";
+import { authentification } from "../tools/helpers/authentification.js";
 
 const router = Router();
 
@@ -32,7 +33,7 @@ const router = Router();
  *                 type: string
  *                 example: Internal Server Error
  */
-router.get("/", getAllNotification);
+router.get("/", authentification, getAllNotification);
 
 /** Documentation de la route notifications/getone/:id
  * @swagger
@@ -80,7 +81,7 @@ router.get("/", getAllNotification);
  *                 type: string
  *                 example: Internal Server Error
  */
-router.get("/getone/:id", getOneNotification);
+router.get("/getone/:id", authentification, getOneNotification);
 
 /** Documentation de la route notifications/add
  * @swagger
@@ -132,7 +133,7 @@ router.get("/getone/:id", getOneNotification);
  *                 type: string
  *                 example: Internal Server Error
  */
-router.post("/add", addNewNotification);
+router.post("/add", authentification, addNewNotification);
 
 /** Documentation de la route notifications/:id
  * @swagger
@@ -180,7 +181,7 @@ router.post("/add", addNewNotification);
  *                 type: string
  *                 example: Internal Server Error
  */
-router.delete("/:id", deleteNotification);
+router.delete("/:id", authentification, deleteNotification);
 
 /** Documentation de la route notifications/:id
  * @swagger
@@ -218,7 +219,7 @@ router.delete("/:id", deleteNotification);
  *                 type: string
  *                 example: Internal Server Error
  */
-router.patch("/:id", changesReadStatusNotification);
+router.patch("/:id", authentification, changesReadStatusNotification);
 
 /** Documentation de la route notifications/noread
  * @swagger
@@ -266,6 +267,6 @@ router.patch("/:id", changesReadStatusNotification);
  *                 type: string
  *                 example: Internal Server Error
  */
-router.get("/noread", getNoReadNotification);
+router.get("/noread", authentification, getNoReadNotification);
 
 export default router;

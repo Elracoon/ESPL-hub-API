@@ -3,7 +3,8 @@ import { Schema, model } from 'mongoose';
 const notificationsSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
-        ref: 'users'
+        ref: 'users',
+        required: true
     },
     message: {
         type: String,
