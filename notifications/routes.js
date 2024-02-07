@@ -97,8 +97,6 @@ router.get("/getone/:id", authentification, getOneNotification);
  *             properties:
  *               message:
  *                 type: string
- *               createdAt:
- *                 type: date
  *   tags:
  *     - Routes Notifications
  *   responses:
