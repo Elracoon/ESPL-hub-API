@@ -149,6 +149,13 @@ export async function addProjetToUser (req, res) {
         if (!response) {
             return res.status(404).send({message: noDataFound})
         }
+        const response2 = await Project.findOneAndUpdate(
+            {_id : projectId},
+            {$push: {members: new ObjectId(userId)}}
+        )
+        if (!response2) {
+            return res.status(404).send({message: noDataFound})
+        }
         return res.status(200).send({message: "update success"})
     } catch (error) {
         console.error(error);
