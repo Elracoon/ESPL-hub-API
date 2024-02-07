@@ -3,6 +3,7 @@ import { ObjectId } from "mongodb"
 import jwt from "jsonwebtoken"
 
 import User from './models.js';
+import Project from "../projects/models.js"
 import { postSchemaUser, postSchemaLogin } from "./validation.js";
 import { accessDenied, noDataFound } from '../bin/messages-constants.js';
 
@@ -124,6 +125,12 @@ export async function deleteUser (req, res) {
         const user = await User.findByIdAndDelete(userId)
         if (!user) {
             res.status(404).send({message: noDataFound})
+        }
+        const projectsToDel = await Project.find({projectManager: userId});
+        if (projectsToDel) {
+            for (const project of projectsToDel) {
+                await Project.findByIdAndDelete(project._id)
+            }
         }
         res.status(200).send({message: "User delete with success"})
     } catch (error) {
