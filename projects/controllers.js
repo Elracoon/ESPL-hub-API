@@ -8,15 +8,10 @@ export async function getAllProject(req, res) {
     try {
         const allProjects = await Project.find({});
         for (const project of allProjects) {
-            const managerId = project.projectManager
+            const managerId = project.projectManager;
             const manager = await User.findById(managerId).select("lastName firstName");
-            let managerInfo;
-            if (manager == null) {
-                managerInfo = null
-            } else {
-                managerInfo = `${manager.lastName} ${manager.firstName}`
-            }
-            project.projectManager = managerInfo
+            const managerInfo = manager ? `${manager.lastName} ${manager.firstName}` : null;
+            project.projectManager = managerInfo;
         }
         res.status(200).json(allProjects);
     } catch (error) {
@@ -33,10 +28,10 @@ export async function getOneProject(req, res) {
             res.status(404).send(noDataFound);
             return;
         }
-        const managerId = project.projectManager
+        const managerId = project.projectManager;
         const manager = await User.findById(managerId).select("lastName firstName");
-        const managerInfo = `${manager.lastName} ${manager.firstName}`
-        project.projectManager = managerInfo
+        const managerInfo = manager ? `${manager.lastName} ${manager.firstName}` : null;
+        project.projectManager = managerInfo;
         res.status(200).json(project);
     } catch (error) {
         console.error(error);
@@ -75,11 +70,12 @@ export async function addNewProject(req, res) {
         const date = new Date();
         object.createdAt = date
         object.projectManager = userId
+        const emailManager = await User.findById(userId).select("email");
+        object.managerEmail = emailManager.email
         const project = new Project(object);
         const projectData = await project.save();
         res.status(201).send(projectData);
     } catch (error) {
-        console.error(error);
         res.status(500).send('Internal Server Error');
     }
 }
@@ -115,18 +111,13 @@ export async function getProjectsByUserByStatus (req, res) {
         }
         const dataProjects =  await Project.find({ _id: { $in: listProjectId } });
         for (const project of dataProjects) {
-            const managerId = project.projectManager
+            const managerId = project.projectManager;
             const manager = await User.findById(managerId).select("lastName firstName");
-            let managerInfo;
-            if (manager == null) {
-                managerInfo = null
-            } else {
-                managerInfo = `${manager.lastName} ${manager.firstName}`
-            }
-            project.projectManager = managerInfo
+            const managerInfo = manager ? `${manager.lastName} ${manager.firstName}` : null;
+            project.projectManager = managerInfo;
         }
         res.status(200).send(dataProjects)
     } catch (error) {
-        res.status(500).send({messsage: "caca"})
+        res.status(500).send({messsage: "Internal Servor Error"})
     }
 }
