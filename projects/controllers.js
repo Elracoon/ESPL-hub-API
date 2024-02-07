@@ -140,3 +140,31 @@ export async function getProjectsByUserByStatus (req, res) {
         res.status(500).send({messsage: "Internal Servor Error"})
     }
 }
+
+export async function changeStatusProject(req, res) {
+    const userId = req.user.userId
+    const projectId = req.body.projectId
+    const status = req.body.status
+    try {
+        const project = await Project.findById(projectId);
+        if (!project) {
+            return res.status(404).send({message: noDataFound})
+        }
+        const managerId = project.projectManager
+        if (managerId !== userId) {
+            return res.status(401).send({message : "Unauthorized to change the status"})
+        }
+        const projects = await User.findById(userId).select("projects");
+        console.log(projects);
+        for (const project of projects.projects) {
+            if (project.projectId == projectId) {
+                project.status = status
+            }
+        }
+        await projects.save()
+        return res.status(200).send("Update success")
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({message: "Internal Server Error"})
+    }
+}

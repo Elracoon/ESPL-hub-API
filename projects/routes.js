@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { getAllProject, getOneProject, getProjectsByUserByStatus, updateProject, addNewProject, deleteProject } from "./controllers.js"
+import { getAllProject, getOneProject, getProjectsByUserByStatus, updateProject, addNewProject, deleteProject, changeStatusProject } from "./controllers.js"
 import { authentification } from "../tools/helpers/authentification.js"
 
 const router = Router()
@@ -157,6 +157,69 @@ router.get("/:id", authentification, getOneProject)
  *                 example: Internal Server Error
  */
 router.get("/status/:status", authentification, getProjectsByUserByStatus)
+
+/** Documentation de la route projects/status/
+ * @swagger
+ * /projects/status/:
+ *  patch:
+ *   description: Change the status of a project
+ *   tags:
+ *     - Routes Projects
+ *   requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               projectId:
+ *                 type: string
+ *               status:
+ *                 type: string
+ *                 example: ['in progress', 'finish']
+ *   responses:
+ *     200:
+ *       description: Update success
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               message:
+ *                 type: string
+ *                 example: Update success
+ *     401:
+ *       description: Unauthorized to change the status
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               message:
+ *                 type: string
+ *                 example: Unauthorized to change the status
+ *     404:
+ *       description: No date found
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               message:
+ *                 type: string
+ *                 example: No date found
+ *     500:
+ *       description: Internal Server Error
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               message:
+ *                 type: string
+ *                 example: Internal Server Error
+ */
+router.patch("/status/", authentification, changeStatusProject)
 
 /** Documentation de la route projects/:id
  * @swagger
