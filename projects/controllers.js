@@ -7,26 +7,39 @@ import { postProjectSchema, updateProjectSchema } from './validation.js';
 export async function getAllProject(req, res) {
     try {
         const allProjects = await Project.find({});
-        console.log(allProjects);
+        for (const project of allProjects) {
+            const managerId = project.projectManager
+            const manager = await User.findById(managerId).select("lastName firstName");
+            let managerInfo;
+            if (manager == null) {
+                managerInfo = null
+            } else {
+                managerInfo = `${manager.lastName} ${manager.firstName}`
+            }
+            project.projectManager = managerInfo
+        }
         res.status(200).json(allProjects);
     } catch (error) {
+        console.error(error);
         res.status(500).send('Internal Server Error');
     }
 }
 
 export async function getOneProject(req, res) {
+    const projectId = req.params.id
     try {
-        const projectId = req.params.id
-        
         const project = await Project.findOne({_id: new ObjectId(projectId)});
-        
         if (!project) {
             res.status(404).send(noDataFound);
             return;
         }
-        
+        const managerId = project.projectManager
+        const manager = await User.findById(managerId).select("lastName firstName");
+        const managerInfo = `${manager.lastName} ${manager.firstName}`
+        project.projectManager = managerInfo
         res.status(200).json(project);
     } catch (error) {
+        console.error(error);
         res.status(500).send('Internal Server Error');
     }
 }
@@ -88,13 +101,32 @@ export async function deleteProject(req, res) {
 export async function getProjectsByUserByStatus (req, res) {
     const userId = req.user.userId
     const status = req.params.status
-    console.log(status);
     try {
-        const response = await User.find()
-        console.log(response);
-        res.status(200).send(response)
+        const userProjects = await User.findById(userId).select('projects');
+        if (!userProjects) {
+            return res.status(404).send({message: noDataFound})
+        }
+        const projects = userProjects.projects
+        let listProjectId = [];
+        for (const project of projects) {
+            if (project.status == status) {
+                listProjectId.push(project.projectId)
+            }
+        }
+        const dataProjects =  await Project.find({ _id: { $in: listProjectId } });
+        for (const project of dataProjects) {
+            const managerId = project.projectManager
+            const manager = await User.findById(managerId).select("lastName firstName");
+            let managerInfo;
+            if (manager == null) {
+                managerInfo = null
+            } else {
+                managerInfo = `${manager.lastName} ${manager.firstName}`
+            }
+            project.projectManager = managerInfo
+        }
+        res.status(200).send(dataProjects)
     } catch (error) {
-        console.error(error);
         res.status(500).send({messsage: "caca"})
     }
 }

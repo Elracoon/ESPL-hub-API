@@ -140,11 +140,11 @@ export async function addProjetToUser (req, res) {
             {$push: {projects: {projectId: new ObjectId(projectId), status: "in progress"}}}
         )
         if (!response) {
-            res.status(404).send({message: noDataFound})
+            return res.status(404).send({message: noDataFound})
         }
-        res.status(200).send({message: "update success"})
+        return res.status(200).send({message: "update success"})
     } catch (error) {
         console.error(error);
-        res.status(500).send({message: "Internal Server Error"})
+        return res.status(500).send({message: "Internal Server Error"})
     }
 }

@@ -261,6 +261,52 @@ router.post("/login", login)
  */
 router.patch("/", authentification, updateUser)
 
+/** Documentation de la route /users/:projectId
+ * @swagger
+ * /users/:projectId:
+ *  patch:
+ *   description: Add user to a project
+ *   tags:
+ *     - Routes Users
+ *   parameters:
+ *     - in: path
+ *       name: Project Id
+ *       required: true
+ *       description: Project Id
+ *       schema:
+ *          type: string
+ *   responses:
+ *     200:
+ *       description: Update Success
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               message:
+ *                 type: string
+ *                 example: Update Success
+ *     404:
+ *       description: No data found
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               message:
+ *                 type: string
+ *                 example: No data found
+ *     500:
+ *       description: Internal Server Error
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               message:
+ *                 type: string
+ *                 example: Internal Server Error
+ */
 router.patch("/:projectId", authentification, addProjetToUser)
 
 /** Documentation de la route /users/
