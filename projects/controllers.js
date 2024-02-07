@@ -6,7 +6,7 @@ import { postProjectSchema, updateProjectSchema } from './validation.js';
 
 export async function getAllProject(req, res) {
     try {
-        const allProjects = await Project.find({});
+        const allProjects = await Project.find({show: true});
         for (const project of allProjects) {
             const managerId = project.projectManager;
             const manager = await User.findById(managerId).select("lastName firstName");
@@ -155,16 +155,20 @@ export async function changeStatusProject(req, res) {
             return res.status(401).send({message : "Unauthorized to change the status"})
         }
         const projects = await User.findById(userId).select("projects");
-        console.log(projects);
         for (const project of projects.projects) {
             if (project.projectId == projectId) {
                 project.status = status
             }
         }
         await projects.save()
+        if (status == "finish") {
+            await Project.findByIdAndUpdate(
+                {_id: projectId},
+                {show: false}
+            )
+        }
         return res.status(200).send("Update success")
     } catch (error) {
-        console.error(error);
         res.status(500).send({message: "Internal Server Error"})
     }
 }

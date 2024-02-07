@@ -142,6 +142,10 @@ export async function addProjetToUser (req, res) {
     const userId = req.user.userId
     const projectId = req.params.projectId
     try {
+        const manager = await Project.findById(projectId).select("projectManager");
+        if (userId == manager.projectManager) {
+            return res.status(401).send({message: "Unauthorized to join this project"})
+        }
         const response = await User.findOneAndUpdate(
             {_id: userId},
             {$push: {projects: {projectId: new ObjectId(projectId), status: "in progress"}}}

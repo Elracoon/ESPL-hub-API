@@ -286,6 +286,16 @@ router.patch("/", authentification, updateUser)
  *               message:
  *                 type: string
  *                 example: Update Success
+ *     401:
+ *       description: Unauthorized to join this project
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               message:
+ *                 type: string
+ *                 example: Unauthorized to join this project
  *     404:
  *       description: No data found
  *       content:

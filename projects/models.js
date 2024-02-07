@@ -28,7 +28,12 @@ const projectSchema = new Schema({
     members: [{
         type: Schema.Types.ObjectId,
         ref: 'users'
-    }]
+    }],
+    show: {
+        type: Boolean,
+        default: true,
+        required: true
+    }
 });
 
 const Project = model('projects', projectSchema);
