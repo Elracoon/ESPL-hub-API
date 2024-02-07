@@ -32,6 +32,12 @@ export async function getOneProject(req, res) {
         const manager = await User.findById(managerId).select("lastName firstName");
         const managerInfo = manager ? `${manager.lastName} ${manager.firstName}` : null;
         project.projectManager = managerInfo;
+        // const members = project.members
+        // for (const member of members) {
+        //     const memberData = await User.findById(member).select("lastName firstName");
+        //     const memberInfo = memberData ? `${memberData.lastName} ${memberData.firstName}` : null;
+        //     project.members.push(memberInfo)
+        // }
         res.status(200).json(project);
     } catch (error) {
         console.error(error);
@@ -72,9 +78,22 @@ export async function addNewProject(req, res) {
         object.projectManager = userId
         const emailManager = await User.findById(userId).select("email");
         object.managerEmail = emailManager.email
+        object.members = [userId]
         const project = new Project(object);
         const projectData = await project.save();
-        res.status(201).send(projectData);
+        try {
+            const projectId = projectData._id.toString()
+            const response = await User.findOneAndUpdate(
+                {_id: userId},
+                {$push: {projects: {projectId: new ObjectId(projectId), status: "in progress"}}}
+            )
+            if (!response) {
+                return res.status(404).send({message: noDataFound})
+            }
+        } catch (error) {
+            res.status(500).send('Internal Server Error');
+        }
+        res.status(201).send({message: "Project added with success"});
     } catch (error) {
         res.status(500).send('Internal Server Error');
     }

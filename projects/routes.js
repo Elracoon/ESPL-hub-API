@@ -27,6 +27,8 @@ const router = Router()
  *                   type: string
  *                 projectManager:
  *                   type: string
+ *                 managerEmail:
+ *                   type: string
  *                 createdAt:
  *                   type: string
  *                   format: date-time
@@ -73,6 +75,8 @@ router.get("/", authentification, getAllProject)
  *               description:
  *                 type: string
  *               projectManager:
+ *                 type: string
+ *               managerEmail:
  *                 type: string
  *               createdAt:
  *                 type: string
@@ -132,6 +136,8 @@ router.get("/:id", authentification, getOneProject)
  *                 description:
  *                   type: string
  *                 projectManager:
+ *                   type: string
+ *                 managerEmail:
  *                   type: string
  *                 createdAt:
  *                   type: string
@@ -252,7 +258,7 @@ router.patch('/:id', authentification, updateProject)
  *     - Routes Projects
  *   responses:
  *     201:
- *       description: Project Added
+ *       description: Project added with success
  *       content:
  *         application/json:
  *           schema:
@@ -260,7 +266,7 @@ router.patch('/:id', authentification, updateProject)
  *             properties:
  *               message:
  *                 type: string
- *                 example: Project Added
+ *                 example: Project added with success
  *     400:
  *       description: Project Propety Is Missing
  *       content:
