@@ -13,6 +13,10 @@ const projectSchema = new Schema({
         type: String,
         required: true
     },
+    managerEmail: {
+        type: String,
+        required: true
+    },
     createdAt: {
         type: Date,
         required: true

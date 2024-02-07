@@ -17,11 +17,24 @@ const router = Router()
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               message:
- *                 type: string
- *                 example: Get All Projects
+ *             type: array
+ *             items:
+ *               type: object
+ *               properties:
+ *                 title:
+ *                   type: string
+ *                 description:
+ *                   type: string
+ *                 projectManager:
+ *                   type: string
+ *                 managerEmail:
+ *                   type: string
+ *                 createdAt:
+ *                   type: string
+ *                   format: date-time
+ *                 competences:
+ *                   type: string
+ *                   example: ['developpement', 'design', 'marketing', 'communciation', 'ux/ui']
  *     500:
  *       description: Internal Server Error
  *       content:
@@ -57,9 +70,20 @@ router.get("/", authentification, getAllProject)
  *           schema:
  *             type: object
  *             properties:
- *               message:
+ *               title:
  *                 type: string
- *                 example: Project data
+ *               description:
+ *                 type: string
+ *               projectManager:
+ *                 type: string
+ *               managerEmail:
+ *                 type: string
+ *               createdAt:
+ *                 type: string
+ *                 format: date-time
+ *               competences:
+ *                 type: string
+ *                 example: ['developpement', 'design', 'marketing', 'communciation', 'ux/ui']
  *     404:
  *       description: No Data Found
  *       content:
@@ -83,7 +107,56 @@ router.get("/", authentification, getAllProject)
  */
 router.get("/:id", authentification, getOneProject)
 
-router.get("/:status", authentification, getProjectsByUserByStatus)
+/** Documentation de la route projects/status/:status
+ * @swagger
+ * /projects/status/:status:
+ *  get:
+ *   description: Get the projects of the user which have the status specified in parameters
+ *   tags:
+ *     - Routes Projects
+ *   parameters:
+ *     - in: path
+ *       name: status
+ *       required: true
+ *       description: status of the project for the user ['candidate', 'in progress', 'finish']
+ *       schema:
+ *          type: string
+ *   responses:
+ *     200:
+ *       description: Get All Projects
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: array
+ *             items:
+ *               type: object
+ *               properties:
+ *                 title:
+ *                   type: string
+ *                 description:
+ *                   type: string
+ *                 projectManager:
+ *                   type: string
+ *                 managerEmail:
+ *                   type: string
+ *                 createdAt:
+ *                   type: string
+ *                   format: date-time
+ *                 competences:
+ *                   type: string
+ *                   example: ['developpement', 'design', 'marketing', 'communciation', 'ux/ui']
+ *     500:
+ *       description: Internal Server Error
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               message:
+ *                 type: string
+ *                 example: Internal Server Error
+ */
+router.get("/status/:status", authentification, getProjectsByUserByStatus)
 
 /** Documentation de la route projects/:id
  * @swagger
@@ -104,7 +177,8 @@ router.get("/:status", authentification, getProjectsByUserByStatus)
  *               projectManager:
  *                 type: string
  *               createdAt:
- *                 type: date
+ *                 type: string
+ *                 format: date-time
  *               competences:
  *                 type: string
  *                 example: ['developpement', 'design', 'marketing', 'communciation', 'ux/ui']
@@ -177,10 +251,6 @@ router.patch('/:id', authentification, updateProject)
  *                 type: string
  *               description:
  *                 type: string
- *               projectManager:
- *                 type: string
- *               createdAt:
- *                 type: date
  *               competences:
  *                 type: string
  *                 example: ['developpement', 'design', 'marketing', 'communciation', 'ux/ui']
@@ -188,7 +258,7 @@ router.patch('/:id', authentification, updateProject)
  *     - Routes Projects
  *   responses:
  *     201:
- *       description: Project Added
+ *       description: Project added with success
  *       content:
  *         application/json:
  *           schema:
@@ -196,7 +266,7 @@ router.patch('/:id', authentification, updateProject)
  *             properties:
  *               message:
  *                 type: string
- *                 example: Project Added
+ *                 example: Project added with success
  *     400:
  *       description: Project Propety Is Missing
  *       content:
